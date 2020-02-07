@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package lionparcel;
+
+message GetPokemonResponse {
+  int32 id = 1;
+  string name = 2;
+  int32 height = 3;
+  int32 weight = 4;
+}
+
+message GetPokemonInput {
+  int32 id = 1;
+}
+
+service Pokemon {
+  rpc GetPokemon (stream GetPokemonInput) returns (stream GetPokemonResponse) {}
+}
