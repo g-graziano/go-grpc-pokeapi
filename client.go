@@ -8,7 +8,7 @@ import (
 	"math/rand"
 	"time"
 
-	pb "https://github.com/g-graziano/go-grpc-pokeapi/proto"
+	pb "github.com/g-graziano/go-grpc-pokeapi/proto"
 	"google.golang.org/grpc"
 )
 
