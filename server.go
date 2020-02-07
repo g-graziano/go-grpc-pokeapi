@@ -19,7 +19,37 @@ type server struct {
 }
 
 func (s *server) GetPokemon(stream pb.Pokemon_GetPokemonServer) error {
+	log.Println("start new server")
+	ctx := stream.Context()
 
+	for {
+		// exit if context is done
+		select {
+		case <-ctx.Done():
+			log.Printf("signal interrupt")
+			return ctx.Err()
+		default:
+		}
+
+		req, err := stream.Recv()
+		if err == io.EOF {
+			// return will close stream from server
+			log.Println("exit")
+			return nil
+		}
+		if err != nil {
+			log.Printf("receive error %v", err)
+			continue
+		}
+
+		fmt.Println("receive ", req)
+
+		s.pokemon, err = pokeapi.GetPokemon(req)
+
+		fmt.Println("Pokemon send: ", s.pokemon)
+
+		stream.Send(s.pokemon)
+	}
 }
 
 func main() {

@@ -14,8 +14,6 @@ type Pokeapi interface {
 }
 
 func GetPokemon(input *pb.GetPokemonInput) (*pb.GetPokemonResponse, error) {
-	var pokemon pb.GetPokemonResponse
-
 	response, err := http.Get("https://pokeapi.co/api/v2/pokemon/" + fmt.Sprint(input.Id))
 	if err != nil {
 		return nil, err
@@ -28,6 +26,7 @@ func GetPokemon(input *pb.GetPokemonInput) (*pb.GetPokemonResponse, error) {
 
 	defer response.Body.Close()
 
+	var pokemon pb.GetPokemonResponse
 	err = json.Unmarshal(contents, &pokemon)
 
 	return &pokemon, nil
